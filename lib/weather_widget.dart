@@ -74,16 +74,40 @@ class _WeatherWidgetState extends State<WeatherWidget> {
           return Text('Error: ${snapshot.error}');
         } else if (snapshot.hasData) {
           final weatherData = snapshot.data!;
-          return Column(
-            children: [
-              // Location name
-              Text(weatherData.name),
-              if (widget.showWeatherIcon)
-                Image.network(
-                    'http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png'),
-              if (widget.showTemperature)
-                Text('${formatTemperature(weatherData.main.temp)}'),
-            ],
+          return Card(
+            elevation: 4,
+            margin: EdgeInsets.all(16),
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Weather in ${weatherData.name}',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  if (widget.showWeatherIcon)
+                    Image.network(
+                      'http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png',
+                      height: 80,
+                      width: 80,
+                    ),
+                  SizedBox(height: 16),
+                  if (widget.showTemperature)
+                    Text(
+                      '${formatTemperature(weatherData.main.temp)}',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                ],
+              ),
+            ),
           );
         } else {
           return Text('No weather data available');
