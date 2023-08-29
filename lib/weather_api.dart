@@ -19,11 +19,10 @@ class OpenWeatherMapApi implements WeatherApi {
   @override
   Future<WeatherData> fetchWeather(double latitude, double longitude) async {
     final url = Uri.parse(
-        "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=${temperatureUnit ==
-            TemperatureUnit.metric ? 'metric' : 'imperial'}");
+        "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=${temperatureUnit == TemperatureUnit.metric ? 'metric' : 'imperial'}");
 
-        final response = await http. get (url);
-
+    final response = await http.get(url);
+    print(url);
     if (response.statusCode == 200) {
       final weatherData = weatherDataFromJson(response.body);
       return weatherData;
@@ -42,6 +41,7 @@ class OpenWeatherMapApi implements WeatherApi {
 
     final response = await http.get(url);
 
+    print(url);
     if (response.statusCode == 200) {
       final locationData = locationDataFromJson(response.body);
       return locationData;
