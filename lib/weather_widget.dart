@@ -31,13 +31,27 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   void initState() {
     super.initState();
     _weatherSDK = WeatherSDK();
-    _weatherDataFuture =
-        _weatherSDK.fetchWeather(widget.latitude, widget.longitude, widget.dateTime ?? DateTime.now());
+    _updateWeatherData();
 
     WeatherSDKInitializer().unitsStream.listen((units) {
-      _weatherDataFuture = _weatherSDK.fetchWeather(
-          widget.latitude, widget.longitude, widget.dateTime ?? DateTime.now());
+      _updateWeatherData();
     });
+  }
+
+  void _updateWeatherData() {
+    setState(() {
+      _weatherDataFuture =
+          _weatherSDK.fetchWeather(widget.latitude, widget.longitude, widget.dateTime ?? DateTime.now());
+    });
+  }
+
+
+  @override
+  void didUpdateWidget(covariant WeatherWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.dateTime != oldWidget.dateTime) {
+      _updateWeatherData();
+    }
   }
 
   String formatTemperature(double temperature) {
