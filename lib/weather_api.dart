@@ -11,13 +11,14 @@ abstract class WeatherApi {
 
 class OpenWeatherMapApi implements WeatherApi {
   final String apiKey;
-  final TemperatureUnit temperatureUnit;
+  TemperatureUnit temperatureUnit;
 
   OpenWeatherMapApi(this.apiKey,
       {this.temperatureUnit = TemperatureUnit.metric});
 
   @override
   Future<WeatherData> fetchWeather(double latitude, double longitude) async {
+    temperatureUnit = WeatherSDKInitializer().units;
     final url = Uri.parse(
         "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=${temperatureUnit == TemperatureUnit.metric ? 'metric' : 'imperial'}");
 

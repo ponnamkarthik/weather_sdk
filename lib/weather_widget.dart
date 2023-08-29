@@ -33,6 +33,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
         _weatherSDK.fetchWeather(widget.latitude, widget.longitude);
 
     WeatherSDKInitializer().unitsStream.listen((units) {
+      print(units);
       // Units have changed, refresh weather data
       _weatherDataFuture =
           _weatherSDK.fetchWeather(widget.latitude, widget.longitude);
@@ -66,7 +67,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               if (widget.showWeatherIcon)
                 Image.network(
                     'http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png'),
-              if (widget.showTemperature) Text('${formatTemperature(weatherData.main.temp)}°'),
+              if (widget.showTemperature) Text('${formatTemperature(weatherData.main.temp)}'),
             ],
           );
         } else {
