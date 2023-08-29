@@ -8,9 +8,11 @@ class WeatherWidget extends StatefulWidget {
   final double longitude;
   final bool showWeatherIcon;
   final bool showTemperature;
+  final DateTime? dateTime;
 
   const WeatherWidget({
     Key? key,
+    this.dateTime,
     required this.latitude,
     required this.longitude,
     this.showWeatherIcon = true,
@@ -30,13 +32,11 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     super.initState();
     _weatherSDK = WeatherSDK();
     _weatherDataFuture =
-        _weatherSDK.fetchWeather(widget.latitude, widget.longitude);
+        _weatherSDK.fetchWeather(widget.latitude, widget.longitude, widget.dateTime ?? DateTime.now());
 
     WeatherSDKInitializer().unitsStream.listen((units) {
-      print(units);
-      // Units have changed, refresh weather data
-      _weatherDataFuture =
-          _weatherSDK.fetchWeather(widget.latitude, widget.longitude);
+      _weatherDataFuture = _weatherSDK.fetchWeather(
+          widget.latitude, widget.longitude, widget.dateTime ?? DateTime.now());
     });
   }
 
@@ -67,7 +67,8 @@ class _WeatherWidgetState extends State<WeatherWidget> {
               if (widget.showWeatherIcon)
                 Image.network(
                     'http://openweathermap.org/img/w/${weatherData.weather[0].icon}.png'),
-              if (widget.showTemperature) Text('${formatTemperature(weatherData.main.temp)}'),
+              if (widget.showTemperature)
+                Text('${formatTemperature(weatherData.main.temp)}'),
             ],
           );
         } else {

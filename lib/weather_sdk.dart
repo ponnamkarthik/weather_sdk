@@ -29,17 +29,18 @@ class WeatherSDK {
 
   double? lat;
   double? lon;
+  DateTime? date;
 
   Future<void> fetchWeatherData() async {
-    // Implement your logic to fetch weather data
-    final weatherData = await fetchWeather(lat!, lon!); // Example coordinates
+    final weatherData = await fetchWeather(lat!, lon!, date!);
     _weatherDataController.add(weatherData);
   }
 
-  Future<WeatherData> fetchWeather(double latitude, double longitude) async {
+  Future<WeatherData> fetchWeather(double latitude, double longitude, DateTime dateTime) async {
     lat = latitude;
     lon = longitude;
-    final weatherData = await _api.fetchWeather(latitude, longitude);
+    date = dateTime;
+    final weatherData = await _api.fetchWeather(latitude, longitude, dateTime);
     _weatherDataController.add(weatherData);
     return weatherData;
   }

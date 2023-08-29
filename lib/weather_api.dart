@@ -4,7 +4,7 @@ import 'package:weather_sdk/model/weather_data.dart';
 import 'package:weather_sdk/weather_sdk_initializer.dart';
 
 abstract class WeatherApi {
-  Future<WeatherData> fetchWeather(double latitude, double longitude);
+  Future<WeatherData> fetchWeather(double latitude, double longitude, DateTime? date);
 
   Future<List<LocationData>> searchLocation(String query, {int limit = 10});
 }
@@ -17,10 +17,11 @@ class OpenWeatherMapApi implements WeatherApi {
       {this.temperatureUnit = TemperatureUnit.metric});
 
   @override
-  Future<WeatherData> fetchWeather(double latitude, double longitude) async {
+  Future<WeatherData> fetchWeather(double latitude, double longitude, DateTime? date) async {
+    date ??= DateTime.now();
     temperatureUnit = WeatherSDKInitializer().units;
     final url = Uri.parse(
-        "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=${temperatureUnit == TemperatureUnit.metric ? 'metric' : 'imperial'}");
+        "https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&dt=${date.millisecondsSinceEpoch ~/ 1000}&units=${temperatureUnit == TemperatureUnit.metric ? 'metric' : 'imperial'}");
 
     final response = await http.get(url);
     print(url);

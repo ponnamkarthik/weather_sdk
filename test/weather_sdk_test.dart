@@ -11,7 +11,7 @@ void main() {
     // sdkInitializer.initialize(apiKey: "53f85eb4f658c8ed7d55cfd641bf70fc");
 
     final sdk = WeatherSDK();
-    await sdk.fetchWeather(17.360589, 78.4740613);
+    await sdk.fetchWeather(17.360589, 78.4740613, DateTime.now());
   });
   // test('search weather location', () async {
   //   final sdkInitializer = WeatherSDKInitializer();
