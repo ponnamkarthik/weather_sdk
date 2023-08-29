@@ -116,8 +116,8 @@ class Main {
   double tempMax;
   int pressure;
   int humidity;
-  int seaLevel;
-  int grndLevel;
+  int? seaLevel;
+  int? grndLevel;
 
   Main({
     required this.temp,
@@ -208,7 +208,7 @@ class Weather {
 class Wind {
   double speed;
   int deg;
-  double gust;
+  dynamic gust;
 
   Wind({
     required this.speed,
@@ -219,7 +219,7 @@ class Wind {
   factory Wind.fromJson(Map<String, dynamic> json) => Wind(
     speed: json["speed"].toDouble(),
     deg: json["deg"],
-    gust: json["gust"].toDouble(),
+    gust: json["gust"],
   );
 
   Map<String, dynamic> toJson() => {
